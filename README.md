@@ -27,7 +27,7 @@ Then open http://localhost:8000.
 
 Step-by-step instructions for every common change are in [EDITING-GUIDE.md](EDITING-GUIDE.md). In short:
 
-- **Add or reorder artwork:** put the JPEG in `images/` with a numbered name, make its grid thumbnail with `sips -s format jpeg -s formatOptions 75 -Z 600 images/NN-name.jpg --out images/thumbs/`, then add or move its `<a class="tile">` line in `index.html`. The grid shows `images/thumbs/`; the lightbox opens the full-size file. Keep the `width` and `height` attributes accurate (`sips -g pixelWidth -g pixelHeight file.jpg`); the masonry layout uses them.
+- **Add or reorder artwork:** put the JPEG in `images/` with a numbered name (long side at most 2000px — shrink larger originals, but never enlarge smaller ones), make its grid thumbnail with `sips -s format jpeg -s formatOptions 75 -Z 600 images/NN-name.jpg --out images/thumbs/`, then add or move its `<a class="tile">` line in `index.html`. The grid shows `images/thumbs/`; the lightbox opens the full-size file. Keep the `width` and `height` attributes accurate (`sips -g pixelWidth -g pixelHeight file.jpg`); the masonry layout uses them.
 - **Contact form:** create a form at [formspree.io](https://formspree.io) and replace `FORMSPREE_ID` in `contact/index.html` with its ID.
 
 ## Deploy

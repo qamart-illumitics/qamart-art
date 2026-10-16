@@ -61,7 +61,10 @@ Change the text inside `content="…"` in all four places. Keep it between about
 NAME=33-tiong-bahru-market
 SRC="/path/to/original image.jpg"
 
-sips -s format jpeg -s formatOptions 85 -Z 2000 "$SRC" --out images/$NAME.jpg
+# Shrink only if the long side is over 2000px (never enlarge — that blurs the image)
+W=$(sips -g pixelWidth "$SRC" | awk '/pixelWidth/{print $2}'); H=$(sips -g pixelHeight "$SRC" | awk '/pixelHeight/{print $2}')
+if [ $W -gt 2000 ] || [ $H -gt 2000 ]; then RESIZE="-Z 2000"; else RESIZE=""; fi
+sips -s format jpeg -s formatOptions 85 $RESIZE "$SRC" --out images/$NAME.jpg
 sips -s format jpeg -s formatOptions 75 -Z 600 images/$NAME.jpg --out images/thumbs/$NAME.jpg
 sips -g pixelWidth -g pixelHeight images/$NAME.jpg
 ```
@@ -69,6 +72,10 @@ sips -g pixelWidth -g pixelHeight images/$NAME.jpg
 Tip: to get the path of the original, drag the file from Finder into Terminal.
 
 The last command prints the width and height — note them down.
+
+> **Why not just `sips -Z 2000`?** `-Z` resizes to *exactly* 2000px on the long side, so a smaller original gets stretched up and looks blurry. The lines above only shrink large images. For the sharpest result, start from the highest-resolution scan or photo you have.
+
+> **Dark border along an edge?** Crop it off the original first. For example, to remove 6px from the left of a 1179×1371 image: `sips -c 1371 1173 --cropOffset 0 6 "$SRC" --out ~/Desktop/cropped.jpg` (new height, new width, then how many pixels to skip from the top and left), and use the cropped file as `SRC`.
 
 **2. Add it to the gallery.** In `index.html`, find the block of lines starting with `<a class="tile"`. Copy one of them and paste it where you want the new image to appear (the gallery shows images in the order of these lines). Then update the four values:
 
@@ -94,7 +101,7 @@ Move the `<a class="tile" …>` lines up or down in `index.html`. You don't need
 
 ## Replace the featured image (next to the bio)
 
-1. Make the web copy, overwriting the old one:
+1. Make the web copy, overwriting the old one (drop `-Z 2000` if the original's long side is 2000px or less, so it isn't enlarged):
    ```sh
    sips -s format jpeg -s formatOptions 85 -Z 2000 "/path/to/new image.jpg" --out images/featured.jpg
    sips -g pixelWidth -g pixelHeight images/featured.jpg
