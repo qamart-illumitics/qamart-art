@@ -117,12 +117,15 @@ Social sites cache link previews, so a new featured image can take a few days to
 
 Search for `instagram.com/qamart.art` — it appears twice in each of `index.html` and `contact/index.html` (header icon and footer). Change all four.
 
-## Set up the contact form (one-time)
+## Contact form
 
-1. Create a free account at https://formspree.io and create a new form.
-2. Formspree gives you an ID like `xabcdwxy`.
-3. In `contact/index.html`, replace `FORMSPREE_ID` with that ID.
-4. Submit a test message on the live site and confirm the email arrives.
+Messages are sent through Formspree (form ID `xjygjlkg`) and arrive by email. Manage the form, see past submissions and change the receiving address at https://formspree.io.
+
+- **Change the email subject line:** in `contact/index.html`, edit the `value` of `<input type="hidden" name="_subject" …>`.
+- **Change the thank-you message:** in `contact/index.html`, edit the text of `<p class="form-thanks" …>`.
+- **Switch to a different Formspree form:** replace `xjygjlkg` in the form's `action="https://formspree.io/f/xjygjlkg"`.
+
+After any change, submit a test message on the live site and confirm the email arrives.
 
 ---
 
